@@ -5,16 +5,20 @@
     "cli"
   ],
   "bin": {
-    "season":"dist/index.js"
+    "season": "dist/index.js"
   },
   "scripts": {
-    "start": "ts-node bin/season.ts",
+    "start": "ts-node bin/index.ts",
     "dev": "tsc --watch",
     "build": "tsc",
     "lint": "eslint --fix src/**/*.ts",
     "test": "jest --coverage"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@types/inquirer": "^7.3.1",
+    "commander": "^7.2.0",
+    "inquirer": "^8.1.1"
+  },
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@types/node": "^14.16.0",
