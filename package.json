@@ -1,11 +1,11 @@
 {
-  "name": "season-cli",
+  "name": "@season/cli",
   "version": "0.0.1",
   "keywords": [
     "cli"
   ],
   "bin": {
-    "season": "dist/index.js"
+    "@season-cli": "./dist/bin/index.js"
   },
   "scripts": {
     "start": "ts-node bin/index.ts",
@@ -15,11 +15,11 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@types/inquirer": "^7.3.1",
     "commander": "^7.2.0",
     "inquirer": "^8.1.1"
   },
   "devDependencies": {
+    "@types/inquirer": "^7.3.1",
     "@types/jest": "^26.0.23",
     "@types/node": "^14.16.0",
     "eslint": "^7.28.0",

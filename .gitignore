@@ -112,4 +112,5 @@ package.error
 # out file
 /libs
 
-
+# pnpm lock
+pnpm-lock.yaml

@@ -1,5 +1,5 @@
 import { Command } from "commander/typings/index";
-import { NewAction } from "../../actions";
+import { NewAction } from "../actions";
 import { NewCommand } from "./new.command";
 
 export class CommandLoader {

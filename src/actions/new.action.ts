@@ -1,4 +1,4 @@
-import { generateSelect } from './../libs/utils/questions';
+// import { generateSelect } from './../libs/utils/questions';
 import { Input } from "../commands";
 import { AbstractAction } from "./abstract.action";
 import * as inquirer from "inquirer"
@@ -43,10 +43,10 @@ const askForSelectorTemplate = async (applicationName:Input | undefined):Promise
     const prompt:inquirer.PromptModule = inquirer.createPromptModule();
     const message = "Please select the template you want to use ?"
     const questions:inquirer.Question[] = [
-      generateSelect("template")(message)([
-        'none',
-        'vue3'
-      ])
+      // generateSelect("template")(message)([
+      //   'none',
+      //   'vue3'
+      // ])
     ]
     return await prompt(questions);
   }
