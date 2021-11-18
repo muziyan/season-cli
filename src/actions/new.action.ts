@@ -1,53 +1,77 @@
-// import { generateSelect } from './../libs/utils/questions';
+import { generatePrompt } from './utils/generatePrompt';
+import { generateSelect, generateInput } from './utils/questions';
 import { Input } from "../commands";
 import { AbstractAction } from "./abstract.action";
-import * as inquirer from "inquirer"
+import { existsSync} from "fs"
+import { cwd } from 'process';
+import * as fs from "fs/promises"
+import {resolve} from "path"
 
-
-const STRING_DECAMELIZE_REGEXP = (/([a-z\d])([A-Z])/g);
-const decamelize = (str:string):string => str.replace(STRING_DECAMELIZE_REGEXP, '$1_$2').toLowerCase();
+const _resolve = (dir:string) => resolve(__dirname,dir)
 
 export class NewAction extends AbstractAction{
   public async handle(inputs: Input[],options: Input[]){
 
-    // Determine whether the project directory exists
-    const directoryOption = options.find(option => option.name === 'directory');
-
     // get application name 
     const applicationName = getApplicationNameInput(inputs);
 
-    // project directory
-    const projectDirectory = getProjectDirectory(applicationName!,directoryOption);
+    // get project name
+    const {projectName} = await askForInputProjectName(applicationName?.value as string) || {}
 
-    const {template} = await askForSelectorTemplate(applicationName);
+    const {template} = await askForSelectorTemplate() || {};
 
-    process.exit(0)
+    await generateTemplate(projectName,template)
+
+    process.exit(0) 
   }
 }
 
+// get application name input
 const getApplicationNameInput = (inputs:Input[]):Input | undefined => inputs.find(input => input.name === 'name');
 
-const getProjectDirectory = (
-  applicationName:Input,
-  directoryOption?:Input
-): string => {
-  return (
-    (directoryOption?.value as string) || decamelize(applicationName?.value as string || "")
-  )
+// input project name
+const askForInputProjectName = async (projectName?:string ):Promise<any> => {
+  const prompt = generatePrompt()
+  const message = "project name!"
+  const questions = [
+    generateInput("projectName")(message)(projectName || "season-demo")
+  ]
+  return await prompt(questions)
 }
 
+// select project template 
+const askForSelectorTemplate = async ():Promise<any> => {
+  const fileList:string[] = ['none'].concat(await fs.readdir(_resolve("../templates")));
+  const prompt = generatePrompt()
+  const message = "Please select the template you want to use ?"
+  const questions = [
+    generateSelect("template")(message)(fileList)
+  ]
+  return await prompt(questions);
+}
 
+// generate template
+const generateTemplate = async (projectName:string,template:string) => {
+  if(template === 'none') return;
+  const targetPath = `${cwd()}/${projectName}`
+  if(existsSync(targetPath)) throw new Error("The current directory already exists!")
+  await fs.mkdir(targetPath)
+  const templateUrl = _resolve(`../templates/${template}`)
+  await copy(templateUrl,targetPath)
+}
 
-const askForSelectorTemplate = async (applicationName:Input | undefined):Promise<any> => {
-  if(!applicationName?.value){
-    const prompt:inquirer.PromptModule = inquirer.createPromptModule();
-    const message = "Please select the template you want to use ?"
-    const questions:inquirer.Question[] = [
-      // generateSelect("template")(message)([
-      //   'none',
-      //   'vue3'
-      // ])
-    ]
-    return await prompt(questions);
+// copy dir to target path
+const copy = async (copyPath:string,targetPath:string) => {
+  const files = await fs.readdir(copyPath);
+  for(let i = 0; i < files.length; i++){
+    const filePath = `${copyPath}/${files[i]}`
+    const targetDirPath = `${targetPath}/${files[i]}`
+    const stat = await fs.stat(filePath);
+    if(await stat.isDirectory()){
+      await fs.mkdir(targetDirPath)
+      await copy(filePath,targetDirPath)
+    }else{
+      await fs.copyFile(filePath,targetDirPath)
+    }
   }
 }
