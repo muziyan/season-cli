@@ -4,6 +4,7 @@
   "keywords": [
     "cli"
   ],
+  "private": false,
   "bin": {
     "@season-cli": "./dist/bin/index.js"
   },
@@ -11,8 +12,12 @@
     "start": "gulp start",
     "build": "gulp build",
     "lint": "eslint --fix src/**/*.ts",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "publish": "pnpm patch && pnpm build && pnpm publish"
   },
+  "files": [
+    "lib"
+  ],
   "dependencies": {
     "commander": "^7.2.0",
     "inquirer": "^8.1.1"
