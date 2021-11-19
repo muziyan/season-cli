@@ -39,6 +39,6 @@
     "typescript": "^4.3.2"
   },
   "repository": "https://github.com/muziyan/season-cli.git",
-  "author": "muziyan <33919751+muziyan@users.noreply.github.com>",
+  "author": "muziyan",
   "license": "MIT"
 }
