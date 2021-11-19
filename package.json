@@ -8,9 +8,8 @@
     "@season-cli": "./dist/bin/index.js"
   },
   "scripts": {
-    "start": "ts-node bin/index.ts",
-    "dev": "tsc --watch",
-    "build": "tsc",
+    "start": "gulp start",
+    "build": "gulp build",
     "lint": "eslint --fix src/**/*.ts",
     "test": "jest --coverage"
   },
@@ -19,12 +18,16 @@
     "inquirer": "^8.1.1"
   },
   "devDependencies": {
+    "@types/gulp": "^4.0.9",
     "@types/inquirer": "^7.3.1",
     "@types/jest": "^26.0.23",
     "@types/node": "^14.16.0",
     "eslint": "^7.28.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.4",
+    "gulp": "^4.0.2",
+    "gulp-cli": "^2.3.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
     "jest": "^27.0.4",
     "ts-jest": "^27.0.3",
     "ts-node": "^10.0.0",
