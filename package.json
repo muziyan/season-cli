@@ -16,7 +16,7 @@
     "publish": "pnpm patch && pnpm build && pnpm publish"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "dependencies": {
     "commander": "^7.2.0",
