@@ -13,7 +13,7 @@
     "build": "gulp build",
     "lint": "eslint --fix src/**/*.ts",
     "test": "jest --coverage",
-    "publish": "pnpm patch && pnpm build && pnpm publish"
+    "push": "pnpm patch && pnpm build && pnpm publish"
   },
   "files": [
     "dist"
